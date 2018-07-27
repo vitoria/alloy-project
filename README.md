@@ -16,7 +16,7 @@ diretório ancestral dele.
 
 ## Equipe
 
-- (Vitória Heliane)[https://github.com/vitoriaHeliane/]
-- (João Marcos)[https://github.com/JoaoMLima]
-- (Alexandre Ribeiro)[https://github.com/alexandrerf3]
-- (Anderson Vidal)[https://github.com/AndersonVidal]
+- [Vitória Heliane](https://github.com/vitoriaHeliane/)
+- [João Marcos](https://github.com/JoaoMLima)
+- [Alexandre Ribeiro](https://github.com/alexandrerf3)
+- [Anderson Vidal](https://github.com/AndersonVidal)
