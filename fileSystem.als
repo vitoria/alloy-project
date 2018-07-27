@@ -86,3 +86,29 @@ fact RootInOneComputer {
 fact UserInOneComputer {
 	all u: User | one c:Computer | u in c.users
 }
+
+// Para cada usuário do mesmo tipo (local ou externo)  deve ter o mesmo tipo de permissão para cada objeto.
+fact allUsersFromSameTypeWithSamePermission {
+	all o:Object | all p:Permission |	all u:User | all u':User |
+	localUsersWithSamePermission[o, p, u, u'] && externalUsersWithSamePermission[o, p, u, u']
+}
+
+// Para cada objeto filho de um determinado diretório, ele deve ter um tipo de permissão equivalente ou mais restrita que o seu pai.
+fact noLessRestrictivePermissionInMoreRestrictiveDirectory {
+	all o:Object | all u:User | all p:Permission |
+	(u -> p in o.permissions) => (
+	(p in Write => one r:Read |  u -> r !in o.^objects.permissions) &&
+	(p in Admin => (one r:Read |  u -> r !in o.^objects.permissions) && (one w:Write |  u -> w !in o.^objects.permissions))
+	)
+}
+
+// Todo objeto deve ter pelo menos um usuário como administrador.
+fact eachObjectShouldHaveAtLeastOneAdminUser {
+	all o:Object | one a:Admin | some u:User | u -> a in o.permissions
+}
+
+// Predicado que verifica se dois usuários locais têm o mesmo tipo de permissão em um determinado objeto.
+pred localUsersWithSamePermission[o:Object, p:Permission, u:User, u':User] {
+	(u in getComputerFromObject[o].users && u' in getComputerFromObject[o].users) =>
+	(u -> p in o.permissions => u' -> p in o.permissions)
+}
