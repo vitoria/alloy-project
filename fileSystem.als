@@ -112,3 +112,27 @@ pred localUsersWithSamePermission[o:Object, p:Permission, u:User, u':User] {
 	(u in getComputerFromObject[o].users && u' in getComputerFromObject[o].users) =>
 	(u -> p in o.permissions => u' -> p in o.permissions)
 }
+
+/*
+ Predicado que verifica se dois usuários que não pertencem ao mesmo computador
+ têm o mesmo tipo de permissão em um determinado objeto.
+*/
+pred externalUsersWithSamePermission[o:Object, p:Permission, u:User, u':User]  {
+	(u !in getComputerFromObject[o].users && u' !in getComputerFromObject[o].users) =>
+	(u -> p in o.permissions => u' -> p in o.permissions)
+}
+
+// Função que retorna o computador ao qual o objeto recebido como parâmetro pertence.
+fun getComputerFromObject[o:Object]: one Computer {
+	o.*(~objects).~root
+}
+
+pred show[]{
+/*
+	#Computer > 3 &&
+	#Archive > 3 &&
+	#CommonDirectory > 3 &&
+	#User < 10
+*/
+}
+run show for 15
